@@ -42,12 +42,12 @@ func New[K, T comparable](
 // Watch adds or updates a state only if the value changed.
 // Uses defaultTTL for new states. Returns true if state was updated.
 func (m *Monitor[K, T]) Watch(key K, value T) bool {
-	return m.watch(key, value, m.defaultTTL)
+	return m.WatchWithTTL(key, value, m.defaultTTL)
 }
 
-// watch updates a state with custom TTL if the value changed.
+// WatchWithTTL updates a state with custom TTL if the value changed.
 // Returns true if state was added/modified, false if unchanged.
-func (m *Monitor[K, T]) watch(key K, value T, ttl time.Duration) bool {
+func (m *Monitor[K, T]) WatchWithTTL(key K, value T, ttl time.Duration) bool {
 	expires := time.Now().Add(ttl)
 
 	m.mu.Lock()
